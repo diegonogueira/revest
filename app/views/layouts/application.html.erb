@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Revest L'art</title>
+	<%= javascript_include_tag :defaults %>
+	<%= javascript_include_tag "admin/menu/ddsmoothmenu" %>
+	<%= javascript_include_tag "admin/application" %>
+	<%= stylesheet_link_tag "admin/application" %>
+	<%= stylesheet_link_tag "admin/menu/ddsmoothmenu" %>
+	<%= stylesheet_link_tag "admin/grid/grid" %>
+	<% javascript_tag do %>
+	 <%= yield(:javascripts) %>
+  <% end -%>  
+	<%= yield(:head) %>
+	
+	<%if true %>
+		<script type="text/javascript">
+
+			ddsmoothmenu.init({
+				mainmenuid: "smoothmenu1", 
+				orientation: 'h',
+				classname: 'ddsmoothmenu',
+				contentsource: "markup"
+			})
+
+		</script>
+	<%end%>
+	
+</head>
+<body>
+
+	<div class="header">
+	  <div class="icone"></div>
+	  <div class="titulo">Revest L'art</div>
+	  <div class="barra">
+		<% if true %>
+	      <span class="usuario"><%= 'administrador' %></span>
+	      <%= link_to "Meus Dados", representatives_path %>
+	      <%= link_to 'Sair', representatives_path, :confirm=>"Deseja realmente sair?", :method=>"delete" %>
+		<% end %>
+	  </div>
+	</div>
+
+	<% if true %>
+	<div class="menu">
+		<div id="smoothmenu1" class="ddsmoothmenu">
+      <ul>
+      <li><a href='#'>Linha</a>
+         <ul>
+            <li><%= link_to "Nova linha", new_line_path %></li>
+            <li><%= link_to "Pesquisar linha", lines_path %></li>
+         </ul>
+      </li>
+      <li><a href='#'>Produto</a>
+         <ul>
+            <li><%= link_to "Novo produto", new_product_path %></li>
+            <li><%= link_to "Pesquisar produto", products_path %></li>
+         </ul>
+      </li>
+      <li><a href='#'>Formas de pagamento</a>
+         <ul>
+            <li><%= link_to "Nova forma de pagamento", new_payment_form_path %></li>
+            <li><%= link_to "Pesquisar forma de pagamento", payment_forms_path %></li>
+         </ul>
+      </li>
+      <li><a href='#'>Tabela de preço</a>
+         <ul>
+            <li><%= link_to "Nova tabela de preço", new_price_list_path %></li>
+            <li><%= link_to "Pesquisar tabela de preço", price_lists_path %></li>
+         </ul>
+      </li> 
+      <li><a href='#'>Transportadora</a>
+         <ul>
+            <li><%= link_to "Nova transportadora", new_carrier_path %></li>
+            <li><%= link_to "Pesquisar transportadora", carriers_path %></li>
+         </ul>
+      </li>  
+      <li><a href='#'>Representante</a>
+         <ul>
+            <li><%= link_to "Novo representante", new_representative_path %></li>
+            <li><%= link_to "Pesquisar representante", representatives_path %></li>
+         </ul>
+      </li>
+      <li><a href='#'>Faturamento</a>
+         <ul>
+            <li><%= link_to "Pesquisar faturamento", sales_path %></li>
+         </ul>
+      </li>          
+      </ul>
+		</div>
+	</div>
+	<% end %>
+
+	<div class="conteudo">
+		<%=yield(:message)%>
+	  <%= "<div class='msgError'>#{flash[:error]}</div>" if flash[:error] %>
+		<%= "<div class='msgInfo'>#{flash[:notice]}</div>" if flash[:notice] %>
+		<%= "<div class='msgSuccess'>#{flash[:success]}</div>" if flash[:success] %>
+		<%= "<div class='msgWarning'>#{flash[:alert]}</div>" if flash[:alert] %>
+		<%=yield(:content)%>
+	</div>
+
+	<div class="footer"><a href="http://www.d3i.com.br/" target="_blank">DESENVOLVIDO POR<br /><br />D3i</a></div>
+
+</body>
+</html>

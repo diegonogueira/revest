@@ -1,0 +1,49 @@
+<div class="headerModulo">Tabelas de preço - <%= @price_list.new_record? ? "Novo" : "Editar" %> registro</div>
+
+<div class="barraFerramentaModulo">
+    <div class="barraFerramentaModuloComplemento">
+        <div class="botao"><div><span class="btConfirmacao" style="padding-left: 20px;"><a href="javascript:submit();">Confirmar</a></span></div></div>
+        <div class="separador"></div>
+		    <div class="botao"><div><span class="btCancelar" style="padding-left: 20px;"><%= link_to ("Voltar", price_lists_path, :confirm=>"Deseja realmente voltar?") %></span></div></div>            </div>    
+</div>
+
+<br>
+
+<% form_for(@price_list, :html => { :id=>"formSubmit" }) do |f| %>
+  <% content_for :message do %>
+  	<%= return_error('price_list') %>
+  <% end %>
+	<fieldset>
+	    <legend>Informações gerais</legend>
+		<table>
+		  <tr height="35">
+			  <td valign="TOP"><%= f.label :name, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :name %><td/>
+			</tr>
+		  <tr height="35">
+			  <td valign="TOP"><%= f.label :mounth, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.select :mounth, mounths %><td/>
+			</tr>
+		  <tr height="35">
+			  <td valign="TOP"><%= f.label :year, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :year %><td/>
+			</tr>						
+		  <tr height="35">
+			  <td valign="TOP"><%= f.label :price, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :price %><td/>
+			</tr>
+		  <tr height="35">
+			  <td valign="TOP"><%= f.label :term_payment_id, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :term_payment_id %><td/>
+			</tr>
+		  <tr height="35">
+			  <td valign="TOP"><%= f.label :type_freight, nil, :class=>"preField" %></td>
+			  <td valign="TOP">
+			    <%= f.radio_button "type_freight", 1, :checked =>true , :class=>"chkbox" %> <b>CIF</b> 
+					<%= f.radio_button "type_freight", 2, :class=>"chkbox" %> <b>FOB</b> 
+				<td/>
+			</tr>												</table>
+
+	</fieldset>
+
+<% end %>

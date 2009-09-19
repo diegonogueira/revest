@@ -1,0 +1,35 @@
+<div class="headerModulo">Tabelas de preço - <%= @payment_form.new_record? ? "Novo" : "Editar" %> registro</div>
+
+<div class="barraFerramentaModulo">
+    <div class="barraFerramentaModuloComplemento">
+        <div class="botao"><div><span class="btConfirmacao" style="padding-left: 20px;"><a href="javascript:submit();">Confirmar</a></span></div></div>
+        <div class="separador"></div>
+		    <div class="botao"><div><span class="btCancelar" style="padding-left: 20px;"><%= link_to ("Voltar", payment_forms_path, :confirm=>"Deseja realmente voltar?") %></span></div></div>            </div>    
+</div>
+
+<br>
+
+<% form_for(@payment_form, :html => { :id=>"formSubmit" }) do |f| %>
+  <% content_for :message do %>
+  	<%= return_error('payment_form') %>
+  <% end %>
+	<fieldset>
+	    <legend>Informações gerais</legend>
+		<table>
+		  <tr height="35">
+			  <td valign="TOP"><%= f.label :name, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :name %><td/>
+			</tr>
+		  <tr height="35">
+			  <td valign="TOP"><%= f.label :initial_interval, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :initial_interval %><td/>
+			</tr>
+		  <tr height="35">
+			  <td valign="TOP"><%= f.label :end_interval, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :end_interval %><td/>
+			</tr>						
+		</table>
+
+	</fieldset>
+
+<% end %>

@@ -1,0 +1,263 @@
+<% content_for :head do %>
+	<script type="text/javascript">	
+	
+		function person_type() {
+			//$("#representative_cnpj_cpf").unbind(); 		
+			if ($("#representative_person_type_1").is(':checked'))	{
+				$("#date_birth").hide();
+				$("#date_birth_label").hide();
+				$("#fantasy_name").show();
+				$("#rg").hide();
+				$("#rg_label").hide();				
+				$("#insc").show();
+				//$("#representative_cnpj_cpf").mask("99.999.999/9999-99");				
+			}
+			else {
+				$("#date_birth").show();
+				$("#date_birth_label").show();
+				$("#fantasy_name").hide();
+				$("#rg").show();
+				$("#rg_label").show();				
+				$("#insc").hide();
+				//$("#representative_cnpj_cpf").mask("999.999.999-99");
+			}
+		}		
+		
+		$(document).ready( function () {
+		  $("#add").click( function() {
+			 var new_id = new Date().getTime();   
+			 $("#local").before(dependent_representative.replace(/NEW_RECORD/g, new_id));
+		  });
+		});				
+	</script>	
+<% end %>
+
+<div class="headerModulo">Representantes - <%= @representative.new_record? ? "Novo" : "Editar" %> registro</div>
+
+<div class="barraFerramentaModulo">
+    <div class="barraFerramentaModuloComplemento">
+        <div class="botao"><div><span class="btConfirmacao" style="padding-left: 20px;"><a href="javascript:submit();">Confirmar</a></span></div></div>
+        <div class="separador"></div>
+		    <div class="botao"><div><span class="btCancelar" style="padding-left: 20px;"><%= link_to ("Voltar", representatives_path, :confirm=>"Deseja realmente voltar?") %></span></div></div>            </div>    
+</div>
+
+<br>
+
+<% form_for(@representative, :html => { :id=>"formSubmit" }) do |f| %>
+	  <% nested_attributes_for f, :dependent_representatives -%>
+  <% content_for :message do %>
+  	<%= return_error('representative') %>
+  <% end %>
+	<fieldset>
+		<legend>Tipo de Pessoa</legend>			
+		<table>
+		  <tr height="35">		
+		  <%= f.radio_button "person_type", 1, :checked =>true , :onclick => "person_type()" %><b>Jurídica</b>
+		  <%= f.radio_button "person_type", 2, :onclick => "person_type()" %><b>Física</b>
+		</table>
+	</fieldset>
+	
+	<fieldset>
+	    <legend>Informações gerais</legend>
+		<table>
+		  <tr height="35">
+			  <td valign="TOP"><%= f.label :name, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :name %><td/>
+
+			  <td valign="TOP" id="date_birth_label"><%= f.label :date_birth, nil, :class=>"preField" %></td>
+			  <td valign="TOP" id="date_birth"><%= f.text_field :date_birth %><td/>
+  
+			</tr>		
+		  <tr height="35" id="fantasy_name">
+			  <td valign="TOP"><%= f.label :fantasy_name, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :fantasy_name %><td/>		  
+		  </tr>					
+		  <tr height="35">
+			  <td valign="TOP"><%= f.label :cnpj_cpf, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :cnpj_cpf %><td/>
+
+			  <td valign="TOP" id="rg_label"><%= f.label :rg, nil, :class=>"preField" %></td>
+			  <td valign="TOP" id="rg"><%= f.text_field :rg %><td/>
+			</tr>				
+		  <tr height="35" id="insc">
+			  <td valign="TOP"><%= f.label :insc_estadual, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :insc_estadual %><td/>
+
+			  <td valign="TOP"><%= f.label :insc_municipal, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :insc_municipal %><td/>
+			</tr>																								</table>
+	</fieldset>
+
+	<fieldset>
+	    <legend>Endereço/Contato</legend>
+		<table>
+		  <tr height="35">
+			  <td valign="TOP"><%= f.label :address, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :address %><td/>
+			  
+			  <td valign="TOP"><%= f.label :number, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :number %><td/>
+			  
+			  <td valign="TOP"><%= f.label :complement, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :complement %><td/>			  			  			  
+			</tr>	
+			<tr height="35">
+			  <td valign="TOP"><%= f.label :state, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :state %><td/>
+			  
+			  <td valign="TOP"><%= f.label :city, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :city %><td/>
+			  
+			  <td valign="TOP"><%= f.label :neighborhood, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :neighborhood %><td/>			  			  			  
+			</tr>
+			<tr height="35">
+			  <td valign="TOP"><%= f.label :zip_code, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :zip_code %><td/>  			  			  
+			</tr>	
+			<tr height="35">
+			  <td valign="TOP"><%= f.label :phone1, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :phone1 %><td/>
+			  
+			  <td valign="TOP"><%= f.label :phone2, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :phone2 %><td/>  			  			  			    			  			  
+			</tr>
+			<tr height="35">
+			  <td valign="TOP"><%= f.label :email, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :email %><td/>
+			  
+			  <td valign="TOP"><%= f.label :msn, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :msn %><td/>  			  			  			    			  			  
+			</tr>									
+		</table>
+	</fieldset>	
+	
+	<fieldset>
+	    <legend>Dados bancários</legend>
+		<table>		
+			<tr height="35">
+			  <td valign="TOP"><%= f.label :bank, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :bank %><td/>
+			  
+			  <td valign="TOP"><%= f.label :agency, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :agency %><td/>
+			  
+			  <td valign="TOP"><%= f.label :account, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :account %><td/>  			  			  			    			  			  			    			  			  			    			  			  
+			</tr>				
+		</table>
+	</fieldset>	
+	
+	<fieldset>
+	    <legend>Informações adicionais</legend>
+		<table>		
+			<tr height="35">
+			  <td valign="TOP"><%= f.label :sent_material, nil, :class=>"preField" %></td>
+			  <td valign="TOP" colspan="4"><%= f.text_area :sent_material, :rows => 6, :cols => 80 %><td/>
+			</tr>
+			<tr height="35">
+			  <td valign="TOP"><%= f.label :transporter, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :transporter %><td/>
+			  
+			  <td valign="TOP"><%= f.label :freight_price, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :freight_price %><td/>  				  		  			  			    			  			  			    			  			  			    			  			  
+			</tr>
+			<tr height="35">
+			  <td valign="TOP"><%= f.label :sent_date, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :sent_date %><td/>
+			  
+			  <td valign="TOP"><%= f.label :received_date, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :received_date %><td/>  				  		  			  			    			  			  			    			  			  			    			  			  
+			</tr>	
+			<tr height="35">
+			  <td valign="TOP"><%= f.label :cities_served, nil, :class=>"preField" %></td>
+			  <td valign="TOP" colspan="4"><%= f.text_area :cities_served, :rows => 6, :cols => 80 %><td/>
+			</tr>			
+			<tr height="35">
+			  <td valign="TOP"><%= f.label :main_customers, nil, :class=>"preField" %></td>
+			  <td valign="TOP" colspan="4"><%= f.text_area :main_customers, :rows => 6, :cols => 80 %><td/>
+			</tr>								
+			<tr height="35">
+			  <td valign="TOP"><%= f.label :commercial_references, nil, :class=>"preField" %></td>
+			  <td valign="TOP" colspan="4"><%= f.text_area :commercial_references, :rows => 6, :cols => 80 %><td/>
+			</tr>			
+			<tr height="35">
+			  <td valign="TOP"><%= f.label :represented_current, nil, :class=>"preField" %></td>
+			  <td valign="TOP" colspan="4"><%= f.text_area :represented_current, :rows => 6, :cols => 80 %><td/>
+			</tr>			
+		</table>
+	</fieldset>	
+	
+	<fieldset>
+	    <legend>Prepostos do representante</legend>
+			<table class="datagrid">
+				<thead> 
+					<tr class="header">
+						<th class="alinCentro">Nome</th>
+						<th class="alinCentro">Telefone</th>
+						<th class="alinCentro">CPF</th> 	
+						<th class="alinCentro">E-mail</th>
+						<th></th>
+					</tr>
+				</thead> 	
+				<tbody> 				
+					<% f.fields_for :dependent_representatives do |dr| -%>
+						<%= render :partial => 'dependent_representative', :locals => {:f => dr } %>
+					<% end -%>
+					<tr id="local">
+						<td colspan="5">
+							<%= link_to image_tag("/images/admin/ico_adicionar.png") + " Adicionar Preposto", "#local" ,:id=>"add" %>						
+						</td>
+					</tr>
+				</tbody>
+			</table>	
+	</fieldset>
+	
+		<fieldset>
+		<legend>Tabelas do Representantes</legend>
+         <table class="datagrid">
+             <% col = 1 %>
+             <% @price_lists.each do |p| %>
+		          <% if col == 1 %><tr><% end %>
+                <td>
+                  <%= check_box_tag "representative[price_list_ids][]", p.id, @representative.price_lists.include?(p) %>
+                  <%= p.name %>
+                </td>
+		          <% if col == 4 %>
+		          	</tr>
+		          	<% col = 1 %>
+		          <% else %>
+		          	<% col = col + 1 %>
+		          <% end %>
+             <% end %>
+         </table>
+		</fieldset>	
+		
+		<fieldset>
+		<legend>Transportadoras do Representantes</legend>
+         <table class="datagrid">
+             <% col = 1 %>
+             <% @carriers.each do |p| %>
+		          <% if col == 1 %><tr><% end %>
+                <td>
+                  <%= check_box_tag "representative[carrier_ids][]", p.id, @representative.carriers.include?(p) %>
+                  <%= p.name %>
+                </td>
+		          <% if col == 4 %>
+		          	</tr>
+		          	<% col = 1 %>
+		          <% else %>
+		          	<% col = col + 1 %>
+		          <% end %>
+             <% end %>
+         </table>
+		</fieldset>				
+		
+<% end %>
+
+  <div class="barraFerramentaModulo">
+      <div class="barraFerramentaModuloComplemento">
+          <div class="botao"><div><span class="btConfirmacao" style="padding-left: 20px;"><a href="javascript:submit();">Confirmar</a></span></div></div>
+          <div class="separador"></div>
+		      <div class="botao"><div><span class="btCancelar" style="padding-left: 20px;"><%= link_to ("Voltar", representatives_path, :confirm=>"Deseja realmente voltar?") %></span></div></div>              </div>    
+  </div>	

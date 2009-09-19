@@ -1,0 +1,18 @@
+<h1>Listing carrier_price_lists</h1>
+
+<table>
+  <tr>
+  </tr>
+
+<% @carrier_price_lists.each do |carrier_price_list| %>
+  <tr>
+    <td><%= link_to 'Show', carrier_price_list %></td>
+    <td><%= link_to 'Edit', edit_carrier_price_list_path(carrier_price_list) %></td>
+    <td><%= link_to 'Destroy', carrier_price_list, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New carrier_price_list', new_carrier_price_list_path %>

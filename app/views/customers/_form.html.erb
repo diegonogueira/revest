@@ -1,0 +1,116 @@
+<% content_for :head do %>
+	<script type="text/javascript">	
+	
+		function person_type() {
+			//$("#representative_cnpj_cpf").unbind(); 		
+			if ($("#customer_person_type_1").is(':checked'))	{
+				$("#fantasy_name").show();				
+				$("#insc").show();
+				//$("#representative_cnpj_cpf").mask("99.999.999/9999-99");				
+			}
+			else {
+				$("#fantasy_name").hide();				
+				$("#insc").hide();
+				//$("#representative_cnpj_cpf").mask("999.999.999-99");
+			}
+		}		
+	
+	</script>	
+<% end %>
+
+<div class="headerModulo">Clientes - <%= @customer.new_record? ? "Novo" : "Editar" %> registro</div>
+
+<div class="barraFerramentaModulo">
+    <div class="barraFerramentaModuloComplemento">
+        <div class="botao"><div><span class="btConfirmacao" style="padding-left: 20px;"><a href="javascript:submit();">Confirmar</a></span></div></div>
+        <div class="separador"></div>
+		    <div class="botao"><div><span class="btCancelar" style="padding-left: 20px;"><%= link_to ("Voltar", representative_customers_path(@representative), :confirm=>"Deseja realmente voltar?") %></span></div></div>            </div>    
+</div>
+
+<br>
+
+<% form_for([@representative,@customer], :html => { :id=>"formSubmit" }) do |f| %>
+  <% content_for :message do %>
+  	<%= return_error('customer') %>
+  <% end %>
+	<fieldset>
+		<legend>Tipo de Pessoa</legend>			
+		<table>
+		  <tr height="35">
+		  <%= f.radio_button "person_type", 1, :checked =>true , :onclick => "person_type()" %><b>Jurídica</b>
+		  <%= f.radio_button "person_type", 2, :onclick => "person_type()" %><b>Física</b>
+		</table>
+	</fieldset> 
+	 
+	<fieldset>
+	    <legend>Informações gerais</legend>
+		<table>
+		  <tr height="35">
+			  <td valign="TOP"><%= f.label :name, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :name %><td/>  
+			</tr>		
+		  <tr height="35" id="fantasy_name">
+			  <td valign="TOP"><%= f.label :fantasy_name, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :fantasy_name %><td/>		  
+		  </tr>					
+		  <tr height="35">
+			  <td valign="TOP"><%= f.label :cnpj_cpf, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :cnpj_cpf %><td/>			</tr>				
+		  <tr height="35" id="insc">
+			  <td valign="TOP"><%= f.label :insc_estadual, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :insc_estadual %><td/>
+
+			  <td valign="TOP"><%= f.label :insc_municipal, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :insc_municipal %><td/>
+			</tr>																								</table>
+	</fieldset>
+
+	<fieldset>
+	    <legend>Endereço/Contato</legend>
+		<table>
+		  <tr height="35">
+			  <td valign="TOP"><%= f.label :address, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :address %><td/>
+			  
+			  <td valign="TOP"><%= f.label :number, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :number %><td/>
+			  
+			  <td valign="TOP"><%= f.label :complement, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :complement %><td/>			  			  			  
+			</tr>	
+			<tr height="35">
+			  <td valign="TOP"><%= f.label :state, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :state %><td/>
+			  
+			  <td valign="TOP"><%= f.label :city, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :city %><td/>
+			  
+			  <td valign="TOP"><%= f.label :neighborhood, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :neighborhood %><td/>			  			  			  
+			</tr>
+			<tr height="35">
+			  <td valign="TOP"><%= f.label :zip_code, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :zip_code %><td/>  			  			  
+			</tr>	
+			<tr height="35">
+			  <td valign="TOP"><%= f.label :phone1, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :phone1 %><td/>
+			  
+			  <td valign="TOP"><%= f.label :phone2, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :phone2 %><td/>  			  			  			    			  			  
+			</tr>
+			<tr height="35">
+			  <td valign="TOP"><%= f.label :email, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :email %><td/>  			  			  			    			  			  
+			</tr>									
+		</table>
+	</fieldset>	
+
+<% end %>
+
+  <div class="barraFerramentaModulo">
+      <div class="barraFerramentaModuloComplemento">
+          <div class="botao"><div><span class="btConfirmacao" style="padding-left: 20px;"><a href="javascript:submit();">Confirmar</a></span></div></div>
+          <div class="separador"></div>
+		      <div class="botao"><div><span class="btCancelar" style="padding-left: 20px;"><%= link_to ("Voltar", representative_customers_path(@representative), :confirm=>"Deseja realmente voltar?") %></span></div></div>              </div>    
+  </div>

@@ -1,0 +1,18 @@
+<h1>Listing sale_items</h1>
+
+<table>
+  <tr>
+  </tr>
+
+<% @sale_items.each do |sale_item| %>
+  <tr>
+    <td><%= link_to 'Show', sale_item %></td>
+    <td><%= link_to 'Edit', edit_sale_item_path(sale_item) %></td>
+    <td><%= link_to 'Destroy', sale_item, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New sale_item', new_sale_item_path %>

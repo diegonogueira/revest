@@ -1,0 +1,12 @@
+<h1>Editing carrier_price_list</h1>
+
+<% form_for(@carrier_price_list) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @carrier_price_list %> |
+<%= link_to 'Back', carrier_price_lists_path %>

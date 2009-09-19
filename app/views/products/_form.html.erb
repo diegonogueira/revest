@@ -1,0 +1,107 @@
+<% content_for :head do %>
+	<script type="text/javascript">		
+		$(document).ready( function () {
+		  $("#add").click( function() {
+			 var new_id = new Date().getTime();   
+			 $("#local").before(photo.replace(/NEW_RECORD/g, new_id));
+		  });
+		});				
+	</script>	
+<% end %>
+
+<div class="headerModulo">Produtos - <%= @product.new_record? ? "Novo" : "Editar" %> registro</div>
+
+<div class="barraFerramentaModulo">
+    <div class="barraFerramentaModuloComplemento">
+        <div class="botao"><div><span class="btConfirmacao" style="padding-left: 20px;"><a href="javascript:submit();">Confirmar</a></span></div></div>
+        <div class="separador"></div>
+		    <div class="botao"><div><span class="btCancelar" style="padding-left: 20px;"><%= link_to ("Voltar", products_path, :confirm=>"Deseja realmente voltar?") %></span></div></div>            </div>    
+</div>
+
+<br>
+
+<% form_for(@product, :html => { :id => "formSubmit", :multipart => true }) do |f| %>
+		  <% nested_attributes_for f, :photos -%>
+  <% content_for :message do %>
+  	<%= return_error('product') %>
+  <% end %>
+	<fieldset>
+	    <legend>Informações gerais</legend>
+		<table>
+		  <tr height="35">
+			  <td valign="TOP"><%= f.label :code, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :code %><td/>
+
+			  <td valign="TOP"><%= f.label :bar_code, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :bar_code %><td/>
+			</tr>
+		  <tr height="35">
+			  <td valign="TOP"><%= f.label :name, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :name %><td/>
+		  
+			  <td valign="TOP"><%= f.label :line, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.select :line_id, @lines %><td/>
+
+			  <td valign="TOP"><%= f.label :color, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :color %><td/>
+			</tr>
+		</table>	</fieldset>
+
+	<fieldset>
+	    <legend>Medidas</legend>
+		<table>
+		  <tr height="35">
+			  <td valign="TOP"><%= f.label :palet_m2, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :palet_m2 %><td/>
+
+			  <td valign="TOP"><%= f.label :box_m2, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :box_m2 %><td/>
+
+			  <td valign="TOP"><%= f.label :weight_m2, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :weight_m2 %><td/>
+			</tr>		
+		</table>	</fieldset>	
+		
+		<fieldset>
+	    <legend>Descrições</legend>
+		<table>	
+		  <tr height="35">
+			  <td valign="TOP"><%= f.label :description, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_area :description, :rows => 10, :cols => 28 %><td/>
+
+			  <td valign="TOP"><%= f.label :features, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_area :features, :rows => 10, :cols => 28 %><td/>
+			</tr>	
+		</table>	</fieldset>											
+  <fieldset>
+	  <legend>Fotos</legend>
+		<table class="datagrid">
+			<thead> 
+				<tr class="header">
+					<th class="alinCentro" style="width:30px">Título</th>
+					<th class="alinCentro" style="width:30px">Imagem</th>
+					<th class="alinCentro" style="width:30px">Descrição</th>
+					<th class="alinCentro" style="width:30px"></th>
+				</tr>
+			</thead> 	
+			<tbody> 				
+				<% f.fields_for :photos do |pf| -%>
+					<%= render :partial => 'photo', :locals => {:f => pf } %>
+				<% end -%>
+				<tr id="local">
+					<td colspan="5">
+						<%= link_to image_tag("/images/admin/ico_adicionar.png") + " Adicionar Foto", "#local", :id => "add" %>						
+					</td>
+				</tr>
+			</tbody>
+		</table>	
+	</fieldset>
+	
+<% end %>
+
+  <div class="barraFerramentaModulo">
+      <div class="barraFerramentaModuloComplemento">
+          <div class="botao"><div><span class="btConfirmacao" style="padding-left: 20px;"><a href="javascript:submit();">Confirmar</a></span></div></div>
+          <div class="separador"></div>
+		      <div class="botao"><div><span class="btCancelar" style="padding-left: 20px;"><%= link_to ("Voltar", products_path, :confirm=>"Deseja realmente voltar?") %></span></div></div>              </div>    
+  </div>	

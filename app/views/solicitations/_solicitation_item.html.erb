@@ -1,0 +1,9 @@
+<tr>
+	<td><%= f.select :price_list_id, @price_lists %></td>
+	<td><%= f.text_field :quantity, :size=>20 %></td>
+	<td><%= f.select :product_id, @products %></td>
+	<td><%= f.text_field :price, :size=>20,:onblur=>"total();" %></td>
+	<td>
+    <%= remove_link_unless_new_record(f) %>
+	</td>
+</tr>

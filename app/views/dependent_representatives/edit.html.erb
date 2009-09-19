@@ -1,0 +1,12 @@
+<h1>Editing dependent_representative</h1>
+
+<% form_for(@dependent_representative) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @dependent_representative %> |
+<%= link_to 'Back', dependent_representatives_path %>

@@ -1,0 +1,9 @@
+.menu {
+   width:100%;
+   border-bottom:1px solid #000000;
+   border-bottom:1px solid #DBDCE3;
+   background-color:#FFFFF;
+   background-color:#E9F9FF;
+   height:26px;
+   background-image:url(/images/admin/menu/fundoMenu.gif);
+}

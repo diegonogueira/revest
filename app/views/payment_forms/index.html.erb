@@ -1,0 +1,92 @@
+<%content_for :head do%>
+	<%= stylesheet_link_tag "admin/paginate" %>
+<%end%>
+
+<%content_for :content do%>
+
+	<div class="headerModulo">Forma de pagamento - Pesquisar</div>
+
+	<div class="barraFerramentaModulo">
+	    <div class="barraFerramentaModuloComplemento">
+	        <div class="botao"><div><span class="btPesquisar" style="padding-left: 20px;"><a href="javascript:pesquisar();">Pesquisar</a></span></div></div>
+	        <div class="separador"></div>
+	        <div class="botao"><div><span class="btAdicionar" style="padding-left: 20px;"><%=link_to "Incluir nova Forma de pagamento", new_payment_form_path %></span></div></div>
+	        <div class="separador"></div>
+	        <div class="botao"><div><span class="btConfirmacao" style="padding-left: 20px;"><a href="javascript:selecionarTodos('.itemDatagrid');">Marcar/desmarcar todos</a></span></div></div>
+	        <div class="separador"></div>
+	        <div class="botao"><div><span class="btCancelar" style="padding-left: 20px;"><a href="javascript:excluirItensSelecionados('#formDelete','.itemDatagrid');">Excluir selecionados</a></span></div></div>
+	    </div>    	
+	</div>
+
+	<br />	
+
+	<div class="filtros" style="display: block;">
+		<% form_tag(payment_forms_path, :method => :get, :id => "formFilter") do %>
+      <fieldset>
+        <span class="Forma de pagamento">
+          <label class="preField" for="name">Buscar por:</label>
+          <%= text_field_tag :search, params[:search], :class => "caixa_texto", :size => "50" %>
+        </span>
+      </fieldset>
+
+      <fieldset class="opcoes">
+          <label class="preField" for="order">Ordenar por:</label>
+
+          <%= select_options_tag("order", [["id","id"],["nome","name"],["intervalo Inicial","initial_interval"],["intervalo final","end_interval"],["data de criação","created_at"]], :value => params[:order]) %>
+          <%= select_options_tag("orderDirect", [["crescente","asc"],["decrescente","desc"]], :value => params[:orderDirect]) %>
+
+          <label style="margin-left: 4px;" class="noblock" for="quantidadeRegistros">Quantidade de registros por página:</label>
+          <%= select_options_tag("per_page", [["1"],["10"],["20"],["30"]], :value => params[:per_page]) %>
+      </fieldset>
+		<% end %>
+	</div>
+
+	<br>
+	
+	<% if @payment_forms.size > 0 %>
+	
+		<%= page_entries_info(@payment_forms, :entry_name=>"Forma de pagamentos") %>
+	
+		<br><br>
+	
+		<% form_tag(payment_form_path(0), :method => :delete, :id=>"formDelete") do %>
+	
+			<table class="datagrid">
+
+				<tr class="header">
+			    <th class="alinCentro" style="width:30px"> </th>
+					<th class="alinCentro" style="width:40px">#</th>
+					<th class="apayment_formsquerda">Nome</th>
+					<th class="apayment_formsquerda">Intervalo Inicial</th>
+					<th class="apayment_formsquerda">Intervalo Final</th>
+					<th class="alinCentro" style="width:80px">Ações</th>
+				</tr>	
+
+				<% @payment_forms.each do |payment_form| %>
+
+					<tr>
+						<td class="alinCentro"><%= check_box_tag 'filters[]', payment_form.id, false, {:class=>"itemDatagrid"} %></td>
+						<td class="alinCentro"><%= link_to payment_form.id, edit_payment_form_path(payment_form) %></td>
+						<td class="apayment_formsquerda"><%= link_to payment_form.name, edit_payment_form_path(payment_form) %></td>
+						<td class="apayment_formsquerda"><%= link_to payment_form.initial_interval, edit_payment_form_path(payment_form) %></td>
+						<td class="apayment_formsquerda"><%= link_to payment_form.end_interval, edit_payment_form_path(payment_form) %></td>
+						<td class="alinCentro" nowrap>&nbsp;
+							<%= link_to "&nbsp;", edit_payment_form_path(payment_form), :class=>"botaoDatagrid alterar", :alt=>"editar", :title=>"editar" %>
+							<%= link_to("&nbsp;", payment_form_path(payment_form), :method=>"delete", :confirm=>"Deseja realmente excluir o registro?", :class=>"botaoDatagrid excluir", :alt=>"excluir", :title=>"excluir" ) %>
+						</td>
+					</tr>
+			
+				<% end %>
+
+			</table>
+		
+		<% end %>
+	
+		<br>
+
+		<%= will_paginate @payment_forms, :prev_label => "Anterior", :next_label => "Próximo"%>
+	<%else%>
+		<span class="zero_size"> Nenhum registro encontrado. </span>
+	<%end%>
+
+<%end%>

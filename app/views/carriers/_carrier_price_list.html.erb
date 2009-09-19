@@ -1,0 +1,9 @@
+<tr>
+	<td class="alinCentro"><%= f.text_field :name, :size=>20 %></td>
+	<td class="alinCentro"><%= f.text_field :region, :size=>20 %></td>
+	<td class="alinCentro"><%= f.text_field :price, :size=>20 %></td>
+	<td class="alinCentro"><%= f.text_field :distance, :size=>20 %></td>
+	<td class="alinCentro">
+    <%= remove_link_unless_new_record(f) %>
+	</td>
+</tr>

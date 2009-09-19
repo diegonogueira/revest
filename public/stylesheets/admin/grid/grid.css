@@ -1,0 +1,123 @@
+.datagrid {
+	width:100%;
+	border:1px solid #BED6E0 !important;
+	padding:0;
+}
+
+.datagrid tr.header,
+.datagrid tr.header:hover {
+	background:#4e84bc url(/images/admin/grid/header_datagrid.gif) repeat-x;
+	height:25px;
+}
+
+.datagrid th {
+	color:#000;
+	font-weight:normal;
+	padding:0px 4px;
+	border-bottom:1px solid #BED6E0 !important;
+	border-right:1px solid #BED6E0 !important;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:11px;
+}
+
+.datagrid td {
+	color:#2767ae;
+	border:none;
+	font-weight:400!important;
+	padding:4px!important;
+}
+
+.datagrid td a {
+	font-weight:lighter;
+}
+
+.datagrid td.primeiraColuna {
+	border-left:none;
+}
+
+.datagrid tr.totalizador {
+	font-weight:700;
+	background-color:#F3F3F3;
+}
+
+.datagrid tr.alt {
+	background-color:#e4ecf5;
+}
+
+.datagrid tr td {
+	border-bottom:1px dotted #BED6E0!important;
+}
+
+.datagrid tr:hover {
+	background-color:#ECF6F9!important;
+}
+
+.datagrid th a,
+.datagrid th a:hover {
+	color:#FFF;
+	text-decoration:underline;
+}
+
+.datagrid tr.semResultado td {
+	color:#2767ae;
+}
+
+.datagrid tr.faturamento_1 {
+    background-color:#FF9999;
+}
+
+.datagrid tr.faturamento_2 {
+    background-color:#CCFFCC;
+}
+
+.datagrid tr.faturamento_3 {
+    background-color:#FFFF99;
+}
+
+.datagrid td a,
+.datagrid td a:visited,
+.datagrid td a:hover,
+.datagrid td a:active {
+	color:#2767ae;
+	text-decoration:none;
+}
+
+.datagrid th.alinEsquerda,
+.datagrid td.alinEsquerda {
+	text-align:left;
+}
+
+.datagrid th.alinCentro,
+.datagrid td.alinCentro {
+	text-align:center;
+}
+
+.datagrid th.alinDireita,
+.datagrid td.alinDireita {
+	text-align:right;
+}
+
+.datagrid th.fonteNegrito,
+.datagrid td.fonteNegrito {
+	font-weight:bold;
+}
+
+.datagrid th.naoQuebraLinha,
+.datagrid td.naoQuebraLinha {
+	white-space:nowrap;
+}
+
+.datagrid th.maiusculo,
+.datagrid td.maiusculo {
+	text-transform:uppercase;
+}
+
+.datagrid th.minusculo,
+.datagrid td.minusculo {
+	text-transform:lowercase;
+}
+
+.datagrid th.capitalizado,
+.datagrid td.capitalizado {
+	text-transform:capitalize;
+}

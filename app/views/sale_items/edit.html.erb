@@ -1,0 +1,12 @@
+<h1>Editing sale_item</h1>
+
+<% form_for(@sale_item) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @sale_item %> |
+<%= link_to 'Back', sale_items_path %>

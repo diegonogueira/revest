@@ -1,0 +1,89 @@
+<%content_for :head do%>
+	<%= stylesheet_link_tag "admin/paginate" %>
+<%end%>
+
+<%content_for :content do%>
+
+	<div class="headerModulo">Pedidos - Pesquisar</div>
+
+	<div class="barraFerramentaModulo">
+	    <div class="barraFerramentaModuloComplemento">
+	        <div class="botao"><div><span class="btPesquisar" style="padding-left: 20px;"><a href="javascript:pesquisar();">Pesquisar</a></span></div></div>
+	        <div class="separador"></div>
+	        <div class="botao"><div><span class="btAdicionar" style="padding-left: 20px;"><%=link_to "Incluir novo Pedido", new_representative_solicitation_path(@representative) %></span></div></div>
+	        <div class="separador"></div>
+	        <div class="botao"><div><span class="btConfirmacao" style="padding-left: 20px;"><a href="javascript:selecionarTodos('.itemDatagrid');">Marcar/desmarcar todos</a></span></div></div>
+	        <div class="separador"></div>
+	        <div class="botao"><div><span class="btCancelar" style="padding-left: 20px;"><a href="javascript:excluirItensSelecionados('#formDelete','.itemDatagrid');">Excluir selecionados</a></span></div></div>
+	    </div>    	
+	</div>
+
+	<br />	
+
+	<div class="filtros" style="display: block;">
+		<% form_tag(representative_solicitations_path(@representative), :method => :get, :id => "formFilter") do %>
+      <fieldset>
+        <span class="Pedido">
+          <label class="preField" for="name">Buscar por:</label>
+          <%= text_field_tag :search, params[:search], :class => "caixa_texto", :size => "50" %>
+        </span>
+      </fieldset>
+
+      <fieldset class="opcoes">
+          <label class="preField" for="order">Ordenar por:</label>
+
+          <%= select_options_tag("order", [["Nº do pedido","id"],["cliente","customers.name"],["data de criação","created_at"]], :value => params[:order]) %>
+          <%= select_options_tag("orderDirect", [["crescente","asc"],["decrescente","desc"]], :value => params[:orderDirect]) %>
+
+          <label style="margin-left: 4px;" class="noblock" for="quantidadeRegistros">Quantidade de registros por página:</label>
+          <%= select_options_tag("per_page", [["1"],["10"],["20"],["30"]], :value => params[:per_page]) %>
+      </fieldset>
+		<% end %>
+	</div>
+
+	<br>
+	
+	<% if @solicitations.size > 0 %>
+	
+		<%= page_entries_info(@solicitations, :entry_name=>"Pedidos") %>
+	
+		<br><br>
+	
+		<% form_tag(representative_solicitation_path(@representative,0), :method => :delete, :id=>"formDelete") do %>
+	
+			<table class="datagrid">
+
+				<tr class="header">
+			    <th class="alinCentro" style="width:30px"> </th>
+					<th class="alinCentro" style="width:40px">#</th>
+					<th class="asolicitationsquerda">Nome</th>
+					<th class="alinCentro" style="width:80px">Ações</th>
+				</tr>	
+
+				<% @solicitations.each do |solicitation| %>
+
+					<tr>
+						<td class="alinCentro"><%= check_box_tag 'filters[]', solicitation.id, false, {:class=>"itemDatagrid"} %></td>
+						<td class="alinCentro"><%= link_to solicitation.id, edit_representative_solicitation_path(@representative,solicitation) %></td>
+						<td class="asolicitationsquerda"><%= link_to solicitation.customer.name, edit_representative_customer_path(@representative,solicitation.customer_id) %></td>
+
+						<td class="alinCentro" nowrap>&nbsp;
+							<%= link_to "&nbsp;", edit_representative_solicitation_path(@representative,solicitation), :class=>"botaoDatagrid alterar", :alt=>"editar", :title=>"editar" %>
+							<%= link_to("&nbsp;", representative_solicitation_path(@representative,solicitation), :method=>"delete", :confirm=>"Deseja realmente excluir o registro?", :class=>"botaoDatagrid excluir", :alt=>"excluir", :title=>"excluir" ) %>
+						</td>
+					</tr>
+			
+				<% end %>
+
+			</table>
+		
+		<% end %>
+	
+		<br>
+
+		<%= will_paginate @solicitations, :prev_label => "Anterior", :next_label => "Próximo"%>
+	<%else%>
+		<span class="zero_size"> Nenhum registro encontrado. </span>
+	<%end%>
+
+<%end%>

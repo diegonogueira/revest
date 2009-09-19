@@ -1,0 +1,30 @@
+<div class="headerModulo">Linhas - <%= @line.new_record? ? "Novo" : "Editar" %> registro</div>
+
+<div class="barraFerramentaModulo">
+    <div class="barraFerramentaModuloComplemento">
+        <div class="botao"><div><span class="btConfirmacao" style="padding-left: 20px;"><a href="javascript:submit();">Confirmar</a></span></div></div>
+        <div class="separador"></div>
+		    <div class="botao"><div><span class="btCancelar" style="padding-left: 20px;"><%= link_to ("Voltar", lines_path, :confirm=>"Deseja realmente voltar?") %></span></div></div>            </div>    
+</div>
+
+<br>
+
+<% form_for(@line, :html => { :id=>"formSubmit" }) do |f| %>
+  <% content_for :message do %>
+  	<%= return_error('line') %>
+  <% end %>
+	<fieldset>
+	    <legend>DADOS</legend>
+		<table>
+		  <tr height="35">
+			  <td valign="TOP"><%= f.label :name, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :name %><td/>
+			</tr>
+		  <tr height="35">
+			  <td valign="TOP"><%= f.label :description, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_area :description %><td/>
+			</tr>					</table>
+
+	</fieldset>
+
+<% end %>

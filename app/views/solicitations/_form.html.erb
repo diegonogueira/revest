@@ -1,0 +1,126 @@
+<% content_for :head do %>
+
+	<script type="text/javascript">
+		
+		$(document).ready( function () {
+		  $("#add").click( function() {
+			 var new_id = new Date().getTime();   
+			 $("#local").before(solicitation_item.replace(/NEW_RECORD/g, new_id));
+		  });
+		});
+		
+	</script>
+	
+<% end %>
+
+<div class="headerModulo">Pedidos - <%= @solicitation.new_record? ? "Novo" : "Editar" %> registro</div>
+
+<div class="barraFerramentaModulo">
+    <div class="barraFerramentaModuloComplemento">
+        <div class="botao"><div><span class="btConfirmacao" style="padding-left: 20px;"><a href="javascript:submit();">Confirmar</a></span></div></div>
+        <div class="separador"></div>
+		    <div class="botao"><div><span class="btCancelar" style="padding-left: 20px;"><%= link_to ("Voltar", representative_solicitations_path(@representative), :confirm=>"Deseja realmente voltar?") %></span></div></div>            </div>    
+</div>
+
+<br>
+
+<% form_for([@representative,@solicitation], :html => { :id=>"formSubmit" }) do |f| %>
+	  <% nested_attributes_for f, :solicitation_items -%>
+  <% content_for :message do %>
+  	<%= return_error('solicitation') %>
+  <% end %>
+
+  <% unless @solicitation.new_record? %>
+	  <fieldset>
+	      <legend>Nº do pedido</legend>
+		  <table>
+		    <tr height="35">
+			    <td valign="TOP"><%= @solicitation.id %><td/>
+   			</tr>																	  </table>
+	  </fieldset>
+	<% end %>
+	
+	<fieldset>
+	    <legend>Informações gerais</legend>
+		<table>
+		  <tr height="35">
+			  <td valign="TOP"><%= f.label :customer_id, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.select :customer_id, @customers %><td/>  
+
+			  <td valign="TOP"><%= f.label :payment_form_id, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.select :payment_form_id, @payment_forms %><td/>		  
+		  </tr>					
+		  <tr height="35">
+			  <td valign="TOP"><%= f.label :carrier_id, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.select :carrier_id, @carriers %><td/>
+			  <td valign="TOP"><%= f.label :carrier_price_list_id, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.select :carrier_price_list_id, @carrier_price_lists %><td/>			</tr>						
+																							</table>
+	</fieldset>
+	
+	<fieldset>
+	    <legend>Endereço/Contato</legend>
+		<table>
+		  <tr height="35">
+			  <td valign="TOP"><%= f.label :delivery_address, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :delivery_address %><td/>
+			  
+			  <td valign="TOP"><%= f.label :delivery_number, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :delivery_number %><td/>
+			  
+			  <td valign="TOP"><%= f.label :delivery_complement, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :delivery_complement %><td/>			  			  			  
+			</tr>	
+			<tr height="35">
+			  <td valign="TOP"><%= f.label :delivery_state, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :delivery_state %><td/>
+			  
+			  <td valign="TOP"><%= f.label :delivery_city, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :delivery_city %><td/>
+			  
+			  <td valign="TOP"><%= f.label :delivery_neighborhood, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :delivery_neighborhood %><td/>			  			  			  
+			</tr>
+			<tr height="35">
+			  <td valign="TOP"><%= f.label :delivery_zip_code, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :delivery_zip_code %><td/>  			  			  
+
+			  <td valign="TOP"><%= f.label :delivery_reference, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :delivery_reference %><td/>  			  			  
+			</tr>								
+		</table>
+	</fieldset>
+	
+		<fieldset>
+		<legend>Itens do Pedido</legend>
+			<table class="datagrid">
+				<thead> 
+					<tr>
+						<th>Tabela</th>
+						<th>Quantidade</th>
+						<th>Produto</th>
+						<th>Valor(R$)</th>
+						<th></th>
+					</tr>
+				</thead> 	
+				<tbody> 				
+					<% f.fields_for :solicitation_items do |si| -%>
+						<%= render :partial => 'solicitation_item', :locals => {:f => si } %>
+					<% end -%>
+					<tr id="local">
+						<td colspan="5">
+							<%= link_to image_tag("/images/admin/ico_adicionar.png") + "Adicionar Item","#local",:id => "add" %>
+						</td>
+					</tr>
+				</tbody>
+			</table>	
+		</fieldset>	
+
+<% end %>
+
+  <div class="barraFerramentaModulo">
+      <div class="barraFerramentaModuloComplemento">
+          <div class="botao"><div><span class="btConfirmacao" style="padding-left: 20px;"><a href="javascript:submit();">Confirmar</a></span></div></div>
+          <div class="separador"></div>
+		      <div class="botao"><div><span class="btCancelar" style="padding-left: 20px;"><%= link_to ("Voltar", representative_solicitations_path(@representative), :confirm=>"Deseja realmente voltar?") %></span></div></div>              </div>    
+  </div>	

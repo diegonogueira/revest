@@ -1,0 +1,2 @@
+module SolicitationItemsHelper
+end

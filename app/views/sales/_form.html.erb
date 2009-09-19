@@ -1,0 +1,102 @@
+<div class="headerModulo">Faturamentos - <%= @sale.new_record? ? "Novo" : "Editar" %> registro</div>
+
+<div class="barraFerramentaModulo">
+    <div class="barraFerramentaModuloComplemento">
+        <div class="botao"><div><span class="btConfirmacao" style="padding-left: 20px;"><a href="javascript:submit();">Confirmar</a></span></div></div>
+        <div class="separador"></div>
+		    <div class="botao"><div><span class="btCancelar" style="padding-left: 20px;"><%= link_to ("Voltar", sales_path, :confirm=>"Deseja realmente voltar?") %></span></div></div>            </div>    
+</div>
+
+<br>
+
+  <% form_for([@solicitation,@sale], :html => { :id=>"formSubmit" }) do |f| %>
+    <% content_for :message do %>
+    	<%= return_error('sale') %>
+    <% end %>  
+		<fieldset>
+		<legend>Informações do Pedido</legend>
+			<table class="form">
+				<tr>
+					<td>
+						<b>N° do Pedido:</b> <%=h @solicitation.id %>
+					</td>				
+					<td>
+						<b>Cliente:</b> <%=h @solicitation.customer.name %>
+					</td>
+					<td>
+						<b>Prazo de pagamento:</b> <%=h @solicitation.term_payment.name %>
+					</td>						
+				</tr>			
+				<tr>
+					<td>
+						<b>Transportadora:</b> <%= @solicitation.transporter.name %>
+					</td>			
+					<td>
+						<b>Tabela:</b> <%= @solicitation.transporter_table.name  %>
+					</td>		
+					<td>
+						<b>Frete:</b> R$ <%=h @solicitation.freight_price.real %>
+					</td>				
+				</tr>
+				<tr>
+					<td><b>Data do faturamento</b><br>
+						<%= f.text_field :sale_date %>
+					</td>
+					<td><b>Nº da Nota Fiscal</b><br>
+						<%= f.text_field :invoice %>
+					</td>					
+				</tr>
+			</table>		
+				<b>Itens do pedido</b>
+				<table class="tablesorter">
+					<thead> 
+						<tr>
+							<th>Qtd. a faturar</th>
+							<th>Qtd. total</th>
+							<th>Qtd. faturada</th>						
+							<th>Tabela</th>						
+							<th>Produto</th>
+							<th>Valor a  faturar(R$)</th>
+							<th>Valor total(R$)</th>
+							<th>Valor faturado(R$)</th>						
+						</tr>
+					</thead> 	
+					<tbody> 	
+							<% @solicitation.solicitation_items.each do |s| %>			
+								<% f.fields_for :sale_items do |si| -%>								
+								<tr>
+									<td>
+										 <%= si.text_field :quantity, :size=>5 %>
+										 <%= si.hidden_field :solicitation_item_id,:value=>s.id %>
+									</td>
+									<td><%=h s.quantity %></td>							
+									<td><%= 0 %></td>													
+									<td><%=h s.price_table.name %></td>
+									<td><%=h s.product.name %></td>
+									<td><%= 0 %></td>																	
+									<td><%=h s.price.real %></td>																					
+									<td><%= 0 %></td>								
+								</tr>
+							<% end -%>
+						<% end %>
+					</tbody>
+				</table>				
+		</fieldset>
+	<% end %>
+
+
+	<fieldset>
+	    <legend>DADOS</legend>
+		<table>
+		  <tr height="35">
+			  <td valign="TOP"><%= f.label :name, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_field :name %><td/>
+			</tr>
+		  <tr height="35">
+			  <td valign="TOP"><%= f.label :description, nil, :class=>"preField" %></td>
+			  <td valign="TOP"><%= f.text_area :description %><td/>
+			</tr>					</table>
+
+	</fieldset>
+
+<% end %>

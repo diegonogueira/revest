@@ -1,0 +1,94 @@
+<%content_for :head do%>
+	<%= stylesheet_link_tag "admin/paginate" %>
+<%end%>
+
+<%content_for :content do%>
+
+	<div class="headerModulo">Faturamentos - Pesquisar</div>
+
+	<div class="barraFerramentaModulo">
+	    <div class="barraFerramentaModuloComplemento">
+	        <div class="botao"><div><span class="btPesquisar" style="padding-left: 20px;"><a href="javascript:pesquisar();">Pesquisar</a></span></div></div>
+	        <div class="separador"></div>
+	        <div class="botao"><div><span class="btConfirmacao" style="padding-left: 20px;"><a href="javascript:selecionarTodos('.itemDatagrid');">Marcar/desmarcar todos</a></span></div></div>
+	        <div class="separador"></div>
+	        <div class="botao"><div><span class="btCancelar" style="padding-left: 20px;"><a href="javascript:excluirItensSelecionados('#formDelete','.itemDatagrid');">Excluir selecionados</a></span></div></div>
+	    </div>
+	</div>
+
+	<br />	
+
+	<div class="filtros" style="display: block;">
+		<% form_tag(sales_path, :method => :get, :id => "formFilter") do %>
+      <fieldset>
+        <span class="Faturamento">
+          <label class="preField" for="name">Buscar por:</label>
+          <%= text_field_tag :search, params[:search], :class => "caixa_texto", :size => "50" %>
+        </span>
+      </fieldset>
+
+      <fieldset class="opcoes">
+          <label class="preField" for="order">Ordenar por:</label>
+
+          <%= select_options_tag("order", [["id","id"],["status","status"],["nº do pedido","solicitation_id"]], :value => params[:order]) %>
+          <%= select_options_tag("orderDirect", [["crescente","asc"],["decrescente","desc"]], :value => params[:orderDirect]) %>
+
+          <label style="margin-left: 4px;" class="noblock" for="quantidadeRegistros">Quantidade de registros por página:</label>
+          <%= select_options_tag("per_page", [["1"],["10"],["20"],["30"]], :value => params[:per_page]) %>
+      </fieldset>
+		<% end %>
+	</div>
+
+	<br>
+	
+	<% if @solicitations.size > 0 %>
+	
+		<%= page_entries_info(@solicitations, :entry_name=>"Faturamentos") %>
+	
+		<br><br>
+	
+		<% form_tag(sale_path(0), :method => :delete, :id=>"formDelete") do %>
+	
+			<table class="datagrid">
+
+				<tr class="header">
+			    <th class="alinCentro" style="width:30px"> </th>
+					<th class="alinCentro" style="width:40px">#</th>
+					<th class="asalesquerda">Status</th>					
+					<th class="asalesquerda">Nº do pedido</th>
+					<th class="asalesquerda">Data do pedido</th>															
+					<th class="asalesquerda">Data do faturamento</th>																				
+					<th class="asalesquerda">Cliente</th>																									
+					<th class="alinCentro" style="width:80px">Ações</th>
+				</tr>	
+
+				<% @solicitations.each do |solicitation| %>
+
+					<tr class="faturamento_<%= solicitation.status %>">
+						<td class="alinCentro"><%= check_box_tag 'filters[]', solicitation.id, false, {:class=>"itemDatagrid"} %></td>
+						<td class="alinCentro"><%= link_to solicitation.id, edit_sale_path(solicitation) %></td>
+						<td class="alinCentro"><%= link_to type_sale(solicitation.status), edit_sale_path(solicitation) %></td>
+						<td class="asalesquerda"><%= link_to solicitation.id, edit_sale_path(solicitation) %></td>						
+						<td class="asalesquerda"><%= link_to solicitation.created_at, edit_sale_path(solicitation) %></td>												
+						<td class="asalesquerda"><%= link_to((solicitation.sales.last if solicitation.sales), edit_sale_path(solicitation)) %></td>																		
+						<td class="asalesquerda"><%= link_to solicitation.customer.name, edit_sale_path(solicitation) %></td>												
+						<td class="alinCentro" nowrap>&nbsp;
+							<%= link_to "&nbsp;", new_solicitation_sale_path(solicitation), :class=>"botaoDatagrid alterar", :alt=>"editar", :title=>"editar" %>
+							<%= link_to("&nbsp;", sale_path(solicitation), :method=>"delete", :confirm=>"Deseja realmente excluir o registro?", :class=>"botaoDatagrid excluir", :alt=>"excluir", :title=>"excluir" ) %>
+						</td>
+					</tr>
+			
+				<% end %>
+
+			</table>
+		
+		<% end %>
+	
+		<br>
+
+		<%= will_paginate @solicitations, :prev_label => "Anterior", :next_label => "Próximo"%>
+	<%else%>
+		<span class="zero_size"> Nenhum registro encontrado. </span>
+	<%end%>
+
+<%end%>
